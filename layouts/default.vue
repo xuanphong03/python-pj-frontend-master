@@ -118,7 +118,7 @@ const menu = ref([
   {
     isSubmenu: false,
     title: "Giới thiệu",
-    link: "/about",
+    link: "#",
   },
 ]);
 
