@@ -88,7 +88,7 @@ getProducts()
 <template>
     <div>
         <div v-loading="loading" class="w-4/5 flex flex-col items-center justify-center  mx-auto">
-            <CategoryProducts>
+            <!-- <CategoryProducts> -->
                 <img :src="advertising && advertising.img1 ? advertising.img1 : ''"
                      alt="">
                 <div class="flex items-center justify-center h-10 bg-red-600 my-4 text-white font-semibold">
@@ -147,7 +147,7 @@ getProducts()
                     :total="formState.total"
                     @currentChange="handleChangePage"
                 />
-            </CategoryProducts>
+            <!-- </CategoryProducts> -->
         </div>
     </div>
 </template>

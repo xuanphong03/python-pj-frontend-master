@@ -1,5 +1,5 @@
 export default defineAppConfig({
-    title: 'Gundam Store',
+    title: 'Dan Store',
     theme: {
         dark: true,
         colors: {

@@ -46,8 +46,8 @@ const getProducts = () =>{
 
 const advertising =
     {
-        img1:'https://herogame.vn/upload/images/full/64991fdba8a4eao.png',
-        img2:'https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload/images/333586691_183269587747425_1437408217987640512_n.jpg',
+        img1:'https://theme.hstatic.net/1000026602/1001232314/14/slideshow_2.jpg?v=107',
+        img2:'https://i.pinimg.com/564x/e5/de/e0/e5dee07399cece6e23146ad9af1554f5.jpg',
     }
 
 
@@ -89,14 +89,14 @@ getProducts()
 <template>
     <div>
        <div v-loading="loading" class="w-4/5 flex flex-col items-center justify-center  mx-auto">
-           <CategoryProducts>
+           <!-- <CategoryProducts> -->
                <img :src="advertising && advertising.img1 ? advertising.img1 : ''"
-                    alt="">
-               <div class="flex items-center justify-center p-3 bg-red-600 my-4 text-white font-semibold">
-                   T1 SHOP GUNDAM - CHUYÊN MUA BÁN MÔ HÌNH GUNDAM GUNPLA CHÍNH HÃNG BANDAI NHẬT BẢN
-               </div>
-               <img :src="advertising && advertising.img2 ? advertising.img2 : ''" alt="">
-                <div class="flex h-16 items-center bg-gray-500 px-8">
+                    alt="" sizes="700px">
+               <!-- <div class="flex items-center justify-center p-3 bg-red-600 my-4 teẬT Bxt-white font-semibold">
+                   T1 SHOP GUNDAM - CHUYÊN MUA BÁN MÔ HÌNH GUNDAM GUNPLA CHÍNH HÃNG BANDAI NHẢN
+               </div> -->
+               <!-- <img :src="advertising && advertising.img2 ? advertising.img2 : ''" alt=""> -->
+                <!-- <div class="flex h-16 items-center bg-gray-500 px-8">
                     <div>
                         <span class="text-white">
                         Sắp xếp theo:
@@ -116,7 +116,7 @@ getProducts()
                             />
                         </el-select>
                     </div>
-                </div>
+                </div> -->
                <div class="w-full grid grid-cols-4 gap-4">
                    <div v-for="(product, index) in products"
                                  :key="index"
@@ -148,7 +148,7 @@ getProducts()
                    :total="formState.total"
                    @currentChange="handleChangePage"
                />
-           </CategoryProducts>
+           <!-- </CategoryProducts> -->
        </div>
     </div>
 </template>

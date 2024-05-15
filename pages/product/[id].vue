@@ -182,7 +182,7 @@ getProducts()
             <div class="w-full bg-red-600 text-white h-8 flex items-center pl-4 py-4 mt-4">
                 Trang chủ >> {{ detailInfo.type }} >> {{ dataDetail && dataDetail.name ? dataDetail.name : '' }}
             </div>
-            <CategoryProducts>
+            <!-- <CategoryProducts> -->
                 <div v-loading="loading" class="w-full flex mt-4">
                     <div class="flex flex-col">
                         <div class="w-[421px] ">
@@ -393,7 +393,7 @@ getProducts()
                         </swiper-slide>
                     </swiper>
                 </div>
-            </CategoryProducts>
+            <!-- </CategoryProducts> -->
         </div>
     </div>
 

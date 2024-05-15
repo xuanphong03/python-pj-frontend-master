@@ -120,13 +120,13 @@ watch(() => props.search, () => {
     <div>
         <div v-loading="loading" class="w-4/5 flex flex-col items-center justify-center  mx-auto">
 
-            <CategoryProducts>
+            <!-- <CategoryProducts> -->
                 <img :src="advertising"
                      alt="">
-                <div class="flex items-center justify-center p-3 bg-red-600 text-white font-semibold">
+                <!-- <div class="flex items-center justify-center p-3 bg-red-600 text-white font-semibold">
                     <slot/>
-                </div>
-                <div class="flex h-16 items-center bg-gray-500 px-8">
+                </div> -->
+                <!-- <div class="flex h-16 items-center bg-gray-500 px-8">
                     <div>
                         <span class="text-white">
                         Sắp xếp theo:
@@ -147,7 +147,7 @@ watch(() => props.search, () => {
                             />
                         </el-select>
                     </div>
-                </div>
+                </div> -->
                 <div class="w-full grid grid-cols-4 gap-4">
                     <div v-for="(product, index) in products"
                          :key="index"
@@ -179,7 +179,7 @@ watch(() => props.search, () => {
                     :total="formState.total"
                     @currentChange="handleChangePage"
                 />
-            </CategoryProducts>
+            <!-- </CategoryProducts> -->
         </div>
     </div>
 </template>

@@ -11,10 +11,15 @@ module.exports = {
     `./app.{js,ts,vue}`,
     `./Error.{js,ts,vue}`,
     `./error.{js,ts,vue}`,
-    `./app.config.{js,ts}`
+    `./app.config.{js,ts}`,
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sofia: ["Sofia Sans", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
+      },
+    },
   },
   plugins: [],
-}
+};
