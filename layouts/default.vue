@@ -1,14 +1,23 @@
 <script setup>
 import MenuItem from "@/components/common/MenuItem.vue";
-import { Search, ShoppingCart } from "@element-plus/icons-vue";
+import {
+  Search,
+  ShoppingCart,
+  AlarmClock,
+  Phone,
+  User,
+  Message,
+  Shop,
+  Location,
+} from "@element-plus/icons-vue";
 import { useAuthStore } from "~/stores/auth.js";
 import spaFetch from "~/plugins/fetch.js";
- 
+
 const route = useRoute();
 const router = useRouter();
 const auth = useAuthStore();
 const { $apiUrl } = useNuxtApp();
- 
+
 const search = ref("");
 // const menu = ref([
 //   {
@@ -76,7 +85,6 @@ const menu = ref([
     },
     colorBg: "bg-amber-600",
     colorItemSM: "bg-yellow-500",
-    
   },
   {
     isSubmenu: true,
@@ -110,10 +118,10 @@ const menu = ref([
   {
     isSubmenu: false,
     title: "Giới thiệu",
-    link: "#",
+    link: "/about",
   },
 ]);
- 
+
 onMounted(() => {
   let prevScrollpos = window.pageYOffset;
   window.onscroll = function () {
@@ -132,12 +140,12 @@ const handleClick = () => {
   router.push("/");
   console.log(route);
 };
- 
+
 const logOut = () => {
   auth.deleteAuth();
   window.location.reload();
 };
- 
+
 const getCart = () => {
   const id =
     auth.$state.user && auth.$state.user.cart ? auth.$state.user.cart : null;
@@ -151,15 +159,15 @@ const getCart = () => {
       console.log("error", error.response);
     });
 };
- 
+
 getCart();
- 
+
 watch(search, () => {
   router.push("/category/search/");
   auth.setSearch(search.value);
 });
 </script>
- 
+
 <template>
   <div class="h-screen relative font-roboto">
     <div id="navbar">
@@ -167,23 +175,25 @@ watch(search, () => {
         <div
           class="max-w-[1300px] flex flex-row justify-between items-center mx-auto text-lg"
         >
-          <div>
-            <img
-              class="w-20 h-20 object-cover"
-              src="../assets/img/logo_shop.jpg"
-              alt="Logo Store"
-            />
-          </div>
- 
-          <div class="basis-1/3 border-solid border-1">
-            <el-input
-              v-model="search"
-              placeholder="Nhập từ khoá cần tìm"
-              class="input-with-select"
-              size="large"
-              :suffix-icon="Search"
-            >
-            </el-input>
+          <div class="flex items-center gap-10">
+            <a href="/">
+              <img
+                class="w-[200px] object-cover"
+                src="../assets/img/logo.webp"
+                alt="Logo Store"
+              />
+            </a>
+
+            <div class="w-[300px] border-solid border-1">
+              <el-input
+                v-model="search"
+                placeholder="Nhập từ khoá cần tìm"
+                class="input-with-select"
+                size="large"
+                :suffix-icon="Search"
+              >
+              </el-input>
+            </div>
           </div>
           <nav>
             <div class="flex justify-center text-base font-bold">
@@ -195,52 +205,55 @@ watch(search, () => {
               />
             </div>
           </nav>
-          <el-badge
-            :value="auth.$state.quantityInCart"
-            class="cursor-pointer hover:text-blue-600 transition duration-200"
-            @click="$router.push('/cart')"
-          >
-            <el-icon size="34"><ShoppingCart /></el-icon>
-          </el-badge>
- <el-divider direction="vertical" />
-          <div
-            class="text-base"
-            v-if="!auth.$state.accessToken || !auth.$state.refreshToken"
-          >
-            <nuxt-link
-              to="/login"
-              class="cursor-pointer hover:underline hover:text-red-700"
+          <div class="flex items-center gap-10">
+            <el-badge
+              :value="auth.$state.quantityInCart"
+              class="cursor-pointer hover:text-blue-600 transition duration-200"
+              @click="$router.push('/cart')"
             >
-              Đăng nhập
-            </nuxt-link>
-            <el-divider direction="vertical" />
-            <nuxt-link
-              to="/register"
-              class="cursor-pointer hover:underline hover:text-red-700"
+              <el-icon size="34"><ShoppingCart /></el-icon>
+            </el-badge>
+            <div
+              class="text-base"
+              v-if="!auth.$state.accessToken || !auth.$state.refreshToken"
             >
-              Đăng ký
-            </nuxt-link>
-          </div>
-          <div v-else>
-            <span> Xin chào, {{ auth.$state.user.username }} </span>
-            <el-divider direction="vertical" />
-            <nuxt-link to="/myorder">
-              <span class="cursor-pointer hover:underline hover:text-red-700">
-                Đơn hàng của tôi
+              <nuxt-link
+                to="/login"
+                class="cursor-pointer hover:underline hover:text-[#409eff]"
+              >
+                Đăng nhập
+              </nuxt-link>
+              <el-divider direction="vertical" />
+              <nuxt-link
+                to="/register"
+                class="cursor-pointer hover:underline hover:text-[#409eff]"
+              >
+                Đăng ký
+              </nuxt-link>
+            </div>
+            <div v-else>
+              <span> Xin chào, {{ auth.$state.user.username }} </span>
+              <el-divider direction="vertical" />
+              <nuxt-link to="/myorder">
+                <span
+                  class="cursor-pointer hover:underline hover:text-[#409eff]"
+                >
+                  Đơn hàng của tôi
+                </span>
+              </nuxt-link>
+              <el-divider direction="vertical" />
+              <span
+                class="cursor-pointer hover:underline hover:text-[#409eff]"
+                @click="logOut"
+              >
+                Đăng xuất
               </span>
-            </nuxt-link>
-            <el-divider direction="vertical" />
-            <span
-              class="cursor-pointer hover:underline hover:text-red-700"
-              @click="logOut"
-            >
-              Đăng xuất
-            </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
- 
+
     <div class="mt-[90px]">
       <div
         v-if="route.href !== '/'"
@@ -248,92 +261,104 @@ watch(search, () => {
       ></div>
       <slot />
     </div>
- 
-    <div class="w-full">
-      <div
-        class="w-full h-24 bg-yellow-300 mt-10 flex justify-center items-center justify-evenly"
-      >
-        <div class="p-6 border-solid border-black">
-          <p>GIAO HÀNG SIÊU TỐC</p>
-          <p>Thanh toán khi nhận hàng</p>
-        </div>
-        <div class="p-6 border-solid border-s-2 border-black">
-          <p>GIAO HÀNG SIÊU TỐC</p>
-          <p>Thanh toán khi nhận hàng</p>
-        </div>
-        <div class="p-6 border-solid border-s-2 border-black">
-          <p>GIAO HÀNG SIÊU TỐC</p>
-          <p>Thanh toán khi nhận hàng</p>
-        </div>
-        <div class="p-6 border-solid border-s-2 border-black">
-          <p>GIAO HÀNG SIÊU TỐC</p>
-          <p>Thanh toán khi nhận hàng</p>
-        </div>
-      </div>
-      <div class="w-full flex">
-        <div class="w-1/5 h-80 p-4 ml-6">
-          <div class="flex flex-col gap-2">
-            <p class="font-semibold">VỀ HERO GAME</p>
-            <p>Liên hệ</p>
-            <p>Giới thiệu Herogame</p>
-            <p>
-              MST: 0313404917, GCNDK hộ kinh doanh số 41P8016680, cấp ngày
-              17/08/2015, cấp bởi Ủy Ban Nhân Dân Quận Phú Nhuận.
-            </p>
-            <p>
-              Cửa hàng kinh doanh các sản phẩm máy chơi game Chính Hãng Nintendo
-              , Playstation, XBox ,... ra mắt 2015
-            </p>
+
+    <div class="w-full bg-gray bg-shawdow-footer">
+      <div class="max-w-[1200px] py-5 mx-auto">
+        <div
+          class="w-full mx-auto flex justify-between border-solid border-b border-[#ccc] py-2"
+        >
+          <div>
+            <a
+              class="block h-[60px] mb-2 rounded-full overflow-hidden"
+              href="/"
+            >
+              <img
+                class="w-full h-full"
+                src="../assets/img/logo.webp"
+                alt="logo"
+              />
+            </a>
+            <q class="block w-[200px]"
+              >SOMEHOW là bạn đồng hành của người tiêu dùng</q
+            >
           </div>
-          <img
-            class="w-52"
-            src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/logoSaleNoti(1)(1).png"
-            alt=""
-          />
-        </div>
-        <div class="w-1/5 h-80 p-4 ml-6">
-          <div class="flex flex-col gap-2">
-            <p class="font-semibold">HỖ TRỢ KHÁCH HÀNG</p>
-            <p>Điều khoản giao dịch</p>
-            <p>Chính sách bảo mật thông tin</p>
-            <p>Phương thức giao hàng</p>
-            <p>Chính sách đổi trả</p>
-            <p>Chính sách bảo hành</p>
-            <p>Phương thức thanh toán</p>
-            <p>Phương thức trả góp</p>
+          <div class="">
+            <h3 class="text-xl px-4 mb-2 font-bold">Chuyển hướng</h3>
+            <ul>
+              <li>
+                <a
+                  class="block transition-all text-[#555] hover:text-[#555] px-4 py-1"
+                  href="/"
+                  >Trang chủ</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block transition-all text-[#555] hover:text-[#555] px-4 py-1"
+                  href="/category/gundam/"
+                  >Bộ sưu tầm</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block transition-all text-[#555] hover:text-[#555] px-4 py-1"
+                  href="/category/t1/"
+                  >Sản phẩm</a
+                >
+              </li>
+              <li>
+                <a
+                  class="block transition-all text-[#555] hover:text-[#555] px-4 py-1"
+                  href="/about"
+                  >Giới thiệu</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl mb-2 font-bold">Hỗ trợ</h3>
+            <p class="text-[#555] mb-2">Đặt hàng trực tuyến (8h-22h)</p>
+            <ul>
+              <li class="flex items-center gap-2 text-[#000] font-semibold">
+                <div>
+                  <el-icon :size="25" color="#555"><AlarmClock /></el-icon>
+                </div>
+                Thứ 2 - Thứ 7
+              </li>
+              <li class="flex items-center gap-2 text-[#000] font-semibold">
+                <div>
+                  <el-icon :size="25" color="#555"><Phone /></el-icon>
+                </div>
+                086 5783 359
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl mb-2 font-bold">Liên hệ</h3>
+            <ul>
+              <li class="flex gap-2 mb-2 items-center max-w-[300px]">
+                <el-icon :size="25" color="#555"><Message /></el-icon>
+                xuanphong03.fullstack@gmail.com
+              </li>
+              <li class="flex gap-2 mb-2 items-center max-w-[300px]">
+                <el-icon :size="25" color="#555"><Shop /></el-icon>
+                somehowclothing.vn
+              </li>
+              <li class="flex gap-2 mb-2 items-start max-w-[300px]">
+                <el-icon :size="25" color="#555"><Location /></el-icon>
+                Nghiêm Xuân Yêm, Đại Kim, Hoàng Mai, Hà Nội 100000
+              </li>
+            </ul>
           </div>
         </div>
-        <div class="w-1/5 h-80 p-4 ml-6">
-          <div class="flex flex-col gap-2">
-            <p class="font-semibold">ĐƯỜNG DÂY NÓNG</p>
-            <p>Hotline (9:00 - 20:00)</p>
-            <p class="font-semibold text-red-500">TP. HỒ CHÍ MINH</p>
-            <p class="font-semibold">090.292.3986</p>
-            <p class="font-semibold">090.622.1218</p>
-            <p class="font-semibold text-red-500">HÀ NỘI</p>
-            <p class="font-semibold">0937.666.822</p>
-            <p class="text-red-500">Kỹ Thuật:</p>
-            <p>0983.700.995</p>
-          </div>
-        </div>
-        <div class="w-1/5 h-80 p-4 ml-6">
-          <div class="flex flex-col gap-2">
-            <p class="font-semibold">LIÊN HỆ</p>
-            <p>Giới Thiệu Herogame</p>
-            <p>Hero HCM : 5 Nguyễn Trọng Tuyển, P15 , Q Phú Nhuận</p>
-            <p>Hero HN : 20 Ngọc Khánh ,Q Ba Đình</p>
-            <p>Sales: shop.herogame@gmail.com</p>
-            <p>Khiếu nại & Hỗ trợ : hotro.herogame@gmail.com</p>
-          </div>
-        </div>
-        <div class="w-1/5 h-80 p-4 ml-6">
-          <p class="font-semibold">THEO DÕI T1 SHOP</p>
+        <div class="w-full mt-2 flex items-center">
+          <img src="../assets/img/permission-logo.png" alt="permission logo" />
         </div>
       </div>
     </div>
   </div>
 </template>
- 
+
 <style lang="scss">
 .el-message {
   z-index: 9999 !important;
@@ -358,7 +383,6 @@ watch(search, () => {
   height: auto; /* Maintain aspect ratio */
 }
 </style>
-
 
 <!-- <script setup>
 import MenuItem from "@/components/common/MenuItem.vue";
@@ -567,14 +591,14 @@ watch(search, () => {
           <div v-if="!auth.$state.accessToken || !auth.$state.refreshToken">
             <nuxt-link
               to="/login"
-              class="cursor-pointer hover:underline hover:text-red-700"
+              class="cursor-pointer hover:underline hover:text-[#409eff]"
             >
               Đăng nhập
             </nuxt-link>
             <el-divider direction="vertical" />
             <nuxt-link
               to="/register"
-              class="cursor-pointer hover:underline hover:text-red-700"
+              class="cursor-pointer hover:underline hover:text-[#409eff]"
             >
               Đăng ký
             </nuxt-link>
@@ -585,13 +609,13 @@ watch(search, () => {
             <span> Xin chào, {{ auth.$state.user.username }} </span>
             <el-divider direction="vertical" />
             <nuxt-link to="/myorder">
-              <span class="cursor-pointer hover:underline hover:text-red-700">
+              <span class="cursor-pointer hover:underline hover:text-[#409eff]">
                 Đơn hàng của tôi
               </span>
             </nuxt-link>
             <el-divider direction="vertical" />
             <span
-              class="cursor-pointer hover:underline hover:text-red-700"
+              class="cursor-pointer hover:underline hover:text-[#409eff]"
               @click="logOut"
             >
               Đăng xuất
@@ -864,14 +888,14 @@ watch(search, () => {
           <div v-if="!auth.$state.accessToken || !auth.$state.refreshToken">
             <nuxt-link
               to="/login"
-              class="cursor-pointer hover:underline hover:text-red-700"
+              class="cursor-pointer hover:underline hover:text-[#409eff]"
             >
               Đăng nhập
             </nuxt-link>
             <el-divider direction="vertical" />
             <nuxt-link
               to="/register"
-              class="cursor-pointer hover:underline hover:text-red-700"
+              class="cursor-pointer hover:underline hover:text-[#409eff]"
             >
               Đăng ký
             </nuxt-link>
@@ -882,13 +906,13 @@ watch(search, () => {
             <span> Xin chào, {{ auth.$state.user.username }} </span>
             <el-divider direction="vertical" />
             <nuxt-link to="/myorder">
-              <span class="cursor-pointer hover:underline hover:text-red-700">
+              <span class="cursor-pointer hover:underline hover:text-[#409eff]">
                 Đơn hàng của tôi
               </span>
             </nuxt-link>
             <el-divider direction="vertical" />
             <span
-              class="cursor-pointer hover:underline hover:text-red-700"
+              class="cursor-pointer hover:underline hover:text-[#409eff]"
               @click="logOut"
             >
               Đăng xuất
@@ -1125,11 +1149,11 @@ watch(search, () => {
             </el-badge>
 
             <div v-if="!auth.$state.accessToken || !auth.$state.refreshToken">
-                <nuxt-link to="/login" class="cursor-pointer hover:underline hover:text-red-700">
+                <nuxt-link to="/login" class="cursor-pointer hover:underline hover:text-[#409eff]">
                 Đăng nhập
                 </nuxt-link>
                 <el-divider direction="vertical"/>
-                <nuxt-link to="/register" class="cursor-pointer hover:underline hover:text-red-700">
+                <nuxt-link to="/register" class="cursor-pointer hover:underline hover:text-[#409eff]">
                 Đăng ký
                 </nuxt-link>
             </div>
@@ -1139,12 +1163,12 @@ watch(search, () => {
                 </span>
                 <el-divider direction="vertical"/>
                 <nuxt-link to="/myorder">
-                <span class="cursor-pointer hover:underline hover:text-red-700">
+                <span class="cursor-pointer hover:underline hover:text-[#409eff]">
                     Đơn hàng của tôi
                 </span>
                 </nuxt-link>
                 <el-divider direction="vertical"/>
-                <span class="cursor-pointer hover:underline hover:text-red-700" @click="logOut">
+                <span class="cursor-pointer hover:underline hover:text-[#409eff]" @click="logOut">
                 Đăng xuất
                 </span>
             </div>
@@ -1197,11 +1221,11 @@ watch(search, () => {
                 </el-badge>
                 <div class="h-[40px] flex items-center justify-end p-2 bg-black text-white">
                     <div v-if="!auth.$state.accessToken || !auth.$state.refreshToken">
-                        <nuxt-link to="/login" class="cursor-pointer hover:underline hover:text-red-700">
+                        <nuxt-link to="/login" class="cursor-pointer hover:underline hover:text-[#409eff]">
                             Đăng nhập
                         </nuxt-link>
                         <el-divider direction="vertical"/>
-                        <nuxt-link to="/register" class="cursor-pointer hover:underline hover:text-red-700">
+                        <nuxt-link to="/register" class="cursor-pointer hover:underline hover:text-[#409eff]">
                             Đăng ký
                         </nuxt-link>
                     </div>
@@ -1211,12 +1235,12 @@ watch(search, () => {
                         </span>
                         <el-divider direction="vertical"/>
                         <nuxt-link to="/myorder">
-                        <span class="cursor-pointer hover:underline hover:text-red-700">
+                        <span class="cursor-pointer hover:underline hover:text-[#409eff]">
                                 Đơn hàng của tôi
                         </span>
                         </nuxt-link>
                         <el-divider direction="vertical"/>
-                        <span class="cursor-pointer hover:underline hover:text-red-700" @click="logOut">
+                        <span class="cursor-pointer hover:underline hover:text-[#409eff]" @click="logOut">
                             Đăng xuất
                         </span>
                     </div>
@@ -1244,7 +1268,7 @@ watch(search, () => {
         </div>
     </div>
 </template> -->
-        <!-- <div class="w-full">
+<!-- <div class="w-full">
             <div class="w-full h-24 bg-yellow-300 mt-10 flex justify-center items-center justify-evenly">
                 <div class="p-6 border-solid border-black">
                     <p>
@@ -1389,13 +1413,11 @@ watch(search, () => {
 
             </div>
         </div> -->
-    <!-- </div>
+<!-- </div>
 </template> -->
 
-<style lang="scss" >
-.el-message{
-    z-index: 9999 !important;
+<style lang="scss">
+.el-message {
+  z-index: 9999 !important;
 }
-
-
 </style>

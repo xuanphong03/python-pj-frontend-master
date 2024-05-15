@@ -7,13 +7,13 @@ import { Autoplay, Navigation } from "swiper/modules";
 import { ShoppingCart } from "@element-plus/icons-vue";
 import { fakeProducts } from "@/constants/fakeData.js";
 import spaFetch from "~/plugins/fetch.js";
- 
+
 const { $apiUrl } = useNuxtApp();
- 
+
 const modules = ref([Autoplay, Navigation]);
 const products = ref(fakeProducts);
 const router = useRouter();
- 
+
 const getProducts = () => {
   spaFetch(false)($apiUrl.PRODUCT, {
     method: "GET",
@@ -39,14 +39,14 @@ const getProducts = () => {
       console.log("error", error.response._data);
     });
 };
- 
+
 const handleClick = (item) => {
   router.push(item && item.id ? `/product/${item.id}` : "#");
 };
- 
+
 getProducts();
 </script>
- 
+
 <template>
   <div class="mb-20">
     <h2
@@ -59,7 +59,7 @@ getProducts();
       :slides-per-view="4"
       :spaceBetween="20"
       :autoplay="{
-        delay: 1500,
+        delay: 3000,
         disableOnInteraction: true,
       }"
       :navigation="true"
@@ -76,25 +76,23 @@ getProducts();
           @click="handleClick(product)"
         >
           <div class="w-full relative">
-            <img class="w-full h-full" :src="product.image" alt="" />
-            <div
-              class="w-full py-2 text-center text-white bg-blue-500 uppercase font-semibold absolute bottom-0"
-            >
-              {{ product.status }}
-            </div>
+            <img class="w-full h-full" :src="product.img" alt="" />
           </div>
-          <div
-            class="h-[5rem] text-sm p-3 text-center font-semibold hover:text-blue-800"
+          <p
+            class="w-full h-[40px] mt-2 text-sm px-2 font-normal hover:text-blue-800 line-clamp-2"
           >
-            <span>{{ product.name }}</span>
-          </div>
+            {{ product.name }}
+          </p>
+          <span class="p-2 border-solid text-black font-semibold">
+            {{
+              product.price.toLocaleString("vi", {
+                style: "currency",
+                currency: "VND",
+              })
+            }}
+          </span>
           <div
-            class="p-2 text-center border-solid border-t-gray-200 border border-b-blue-300 border-b-2 text-red-600 font-semibold"
-          >
-            {{ product.price }}đ
-          </div>
-          <div
-            class="py-2 hover text-center font-bold text-blue-600 uppercase flex justify-center items-center gap-1 hover:text-white hover:bg-red-600 transition duration-200"
+            class="py-2 hover text-center font-bold text-blue-600 uppercase flex justify-center items-center gap-1 hover:text-white hover:bg-black transition duration-200"
           >
             <el-icon size="20"> <ShoppingCart /> </el-icon>
             Thêm vào giỏ
@@ -102,20 +100,14 @@ getProducts();
         </div>
       </swiper-slide>
     </swiper>
-    <img
-      class="mt-5 w-full h-72 rounded-xl"
-      src="https://theme.hstatic.net/1000026602/1001232314/14/img-banner-index.jpg?v=107"
-      alt="banner"
-    />
   </div>
 </template>
- 
+
 <style scoped>
 .card-new-product {
   transition: all 0.3s;
 }
 </style>
-
 
 <!-- <script setup>
 import {Swiper, SwiperSlide} from 'swiper/vue';

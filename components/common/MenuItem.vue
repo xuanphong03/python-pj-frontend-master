@@ -1,6 +1,6 @@
 <script setup>
 import SubMenuItem from "~/components/common/SubMenuItem.vue";
- 
+
 const props = defineProps({
   item: {
     type: Object,
@@ -9,21 +9,21 @@ const props = defineProps({
     },
   },
 });
- 
+
 const router = useRouter();
- 
+
 const getMainSubMenu = () => {
   if (props.item && props.item.mainSubMenu) {
     return props.item.mainSubMenu;
   }
   return "";
 };
- 
+
 const handleClick = (item) => {
   router.push(item && item.link ? item.link : "#");
 };
 </script>
- 
+
 <template>
   <div>
     <div
@@ -32,7 +32,7 @@ const handleClick = (item) => {
     >
       {{ item && item.title ? item.title : "" }}
     </div>
- 
+
     <div
       v-if="item.isSubmenu"
       class="menu-item-drop w-3/5 h-[450px] absolute left-1/2 translate-x-[-50%] justify-center items-center flex invisible opacity-0 overflow-hidden"
@@ -40,7 +40,7 @@ const handleClick = (item) => {
     >
       <div class="flex flex-row items-start">
         <div
-          class="w-60 h-96 rounded-2xl mr-4 menu-item-image overflow-hidden cursor-pointer"
+          class="w-60 h-[315px] rounded-2xl mr-4 menu-item-image overflow-hidden cursor-pointer"
           :class="item && item.colorItemSM ? item.colorItemSM : ''"
           @click="handleClick(item)"
         >
@@ -50,7 +50,7 @@ const handleClick = (item) => {
           ></div>
           <span class="text-white text-2xl">{{ getMainSubMenu().title }}</span>
         </div>
- 
+
         <div
           v-if="item && item.children && item.children.length > 0"
           class="grid grid-cols-3 grid-rows-2 gap-4 justify-between"
@@ -67,7 +67,7 @@ const handleClick = (item) => {
     </div>
   </div>
 </template>
- 
+
 <style scoped></style>
 <!-- <script setup>
 import SubMenuItem from "~/components/common/SubMenuItem.vue";
