@@ -35,7 +35,7 @@ const handleClick = (item) => {
  
     <div
       v-if="item.isSubmenu"
-      class="menu-item-drop w-screen h-[600px] absolute left-0 justify-center items-center flex invisible opacity-0 overflow-hidden"
+      class="menu-item-drop w-3/5 h-[450px] absolute left-1/2 translate-x-[-50%] justify-center items-center flex invisible opacity-0 overflow-hidden"
       :class="item && item.colorBg ? item.colorBg : ''"
     >
       <div class="flex flex-row items-start">
