@@ -85,14 +85,14 @@ watch(search, () => {
         <div class="uppercase font-semibold text-2xl">
             Danh sách sản phẩm
         </div>
-        <div class="w-full py-4 flex justify-between items-center">
+        <div class="search-container">
             <el-input
-                v-model="search"
-                placeholder="Nhập nội dung tìm kiếm"
-                :prefix-icon="Search"
-                style="width: 400px"
+            v-model="search"
+            placeholder="Tìm kiếm sản phẩm"
+            :prefix-icon="Search"
+            class="search-input custom-input"
             />
-            <el-button type="success" @click="handleAdd"> + Thêm sản phẩm</el-button>
+            <el-button type="success" @click="handleAdd" class="add-button custom-button">+ Thêm</el-button>
         </div>
         <el-table v-loading="loading" :data="tableData" max-height="700" border>
             <el-table-column prop="stt" label="STT" width="80"/>
@@ -112,7 +112,7 @@ watch(search, () => {
                                type="primary"
                                size="large"
                                @click.prevent="handleEdit(scope.row)">
-                        Sửa
+                        Thay đổi
                     </el-button>
                     <el-popconfirm title="Bạn có chắc chắn muốn xoá sản phẩm này?"
                                    width="220"
@@ -129,12 +129,46 @@ watch(search, () => {
             </el-table-column>
         </el-table>
         <span class="text-right mt-4 text-lg">
-            Tổng số sản phẩm: {{tableData.length}}
+            Thống kế số lượng sản phẩm: {{tableData.length}}
         </span>
         <CreateOrUpdateProduct ref="refCreateOrUpdateModal" :is-update="isUpdate" @on-success="handleSuccess"/>
     </div>
 </template>
 
 <style scoped>
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust the gap between the input and the button */
+  padding: 10px 0; /* Adjust the padding as needed */
+}
 
+.search-input {
+  flex: 1;
+}
+
+.add-button {
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.custom-input ::v-deep(.el-input__inner) {
+  background-color: #f0f8ff; /* Light blue background */
+  border-color: #1e90ff; /* Dodger blue border */
+  color: #333; /* Text color */
+}
+
+.custom-input ::v-deep(.el-input__inner::placeholder) {
+  color: #aaa; /* Placeholder color */
+}
+
+.custom-button {
+  background-color: #1e90ff; /* Dodger blue background */
+  border-color: #1e90ff; /* Border color */
+  color: #fff; /* Text color */
+}
+
+.custom-button:hover {
+  background-color: #1c86ee; /* Slightly darker blue on hover */
+  border-color: #1c86ee; /* Border color on hover */
+}
 </style>

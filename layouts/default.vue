@@ -19,7 +19,7 @@ const menu = ref([
     },
     {
         isSubmenu: true,
-        title: 'Gundam - Figure',
+        title: 'Clothing',
         link: '/category/gundam/',
         children: [
             {img: 'https://herogame.vn/upload/images//full/185202319930_259036466157a22b624.17302350_pngwing.com%20(2).png', title: 'Mô hình Pokemon', link: '/category/pokemon/'},
@@ -35,7 +35,7 @@ const menu = ref([
     },
     {
         isSubmenu: true,
-        title: 'T1 store',
+        title: 'Jewelry',
         link: '/category/t1/',
         children: [
             {img: 'https://i.imgur.com/pBgpztm.jpeg', title: 'Handmade', link: '/category/t1Handmade/'},
@@ -48,12 +48,7 @@ const menu = ref([
     },
     {
         isSubmenu: false,
-        title: 'Tin tức - Hướng dẫn',
-        link: '#',
-    },
-    {
-        isSubmenu: false,
-        title: 'Facebook',
+        title: 'About Us',
         link: '#',
     },
 ])
@@ -100,59 +95,139 @@ watch(search, () => {
     auth.setSearch(search.value)
 })
 </script>
-
 <template>
     <div class="h-screen relative">
-        <div id="navbar">
-            <div class="h-[40px] flex items-center justify-end p-2 bg-black text-white">
-               <div v-if="!auth.$state.accessToken || !auth.$state.refreshToken">
-                   <nuxt-link to="/login" class="cursor-pointer hover:underline hover:text-red-700">
-                       Đăng nhập
-                   </nuxt-link>
-                   <el-divider direction="vertical"/>
-                   <nuxt-link to="/register" class="cursor-pointer hover:underline hover:text-red-700">
-                       Đăng ký
-                   </nuxt-link>
-               </div>
-                <div v-else>
-                    <span>
-                        Xin chào, {{auth.$state.user.username}}
-                    </span>
-                    <el-divider direction="vertical"/>
-                    <nuxt-link to="/myorder">
-                       <span class="cursor-pointer hover:underline hover:text-red-700">
-                            Đơn hàng của tôi
-                       </span>
-                    </nuxt-link>
-                    <el-divider direction="vertical"/>
-                    <span class="cursor-pointer hover:underline hover:text-red-700" @click="logOut">
-                        Đăng xuất
-                    </span>
-                </div>
+      <div id="navbar" class="bg-slate-700">
+        <div class="container mx-auto py-4 flex justify-between items-center">
+          <!-- Logo -->
+          <div>
+            <img class="w-24 h-24" src="/Re_logo.jpg" alt="Logo Store">
+          </div>
+  
+          <!-- Menu -->
+          <div class="flex items-center space-x-8" >
+            <div v-for="(item, index) in menu" :key="index" class="text-black">
+              <MenuItem :item="item" :class="item.isSubmenu ? 'menu-item-wrap' : ''"/>
             </div>
-            <div class="w-full h-[100px] flex flex-row justify-center items-center space-x-32">
-                <div >
-                    <img class="w-16 h-16" src="/logo.png" alt="Logo Store">
-                </div>
-                <div class="w-1/3 border-solid border-4">
-                    <el-input
-                        v-model="search"
-                        placeholder="Nhập từ khoá cần tìm"
-                        class="input-with-select"
-                        size="large"
-                        :suffix-icon="Search"
-                    >
-                    </el-input>
-                </div>
-                <el-badge :value="auth.$state.quantityInCart" class="cursor-pointer hover:text-blue-600 transition duration-200" @click="$router.push('/cart')">
+          </div>
+  
+          <!-- Search -->
+          <div class="w-1/4">
+            <el-input v-model="search"
+                      placeholder="Nhập từ khoá cần tìm"
+                      class="input-with-select"
+                      size="large"
+                      :suffix-icon="Search">
+            </el-input>
+          </div>
+  
+          <!-- Cart & Authentication -->
+          <div class="flex items-center space-x-4">
+            <el-badge :value="auth.$state.quantityInCart" class="cursor-pointer hover:text-blue-600 transition duration-200" @click="$router.push('/cart')">
+              <el-icon size="40"><ShoppingCart/></el-icon>
+            </el-badge>
+  
+            <div v-if="!auth.$state.accessToken || !auth.$state.refreshToken">
+              <nuxt-link to="/login" class="cursor-pointer hover:underline hover:text-red-700">
+                Đăng nhập
+              </nuxt-link>
+              <el-divider direction="vertical"/>
+              <nuxt-link to="/register" class="cursor-pointer hover:underline hover:text-red-700">
+                Đăng ký
+              </nuxt-link>
+            </div>
+            <div v-else>
+              <span>
+                Xin chào, {{auth.$state.user.username}}
+              </span>
+              <el-divider direction="vertical"/>
+              <nuxt-link to="/myorder">
+                <span class="cursor-pointer hover:underline hover:text-red-700">
+                  Đơn hàng của tôi
+                </span>
+              </nuxt-link>
+              <el-divider direction="vertical"/>
+              <span class="cursor-pointer hover:underline hover:text-red-700" @click="logOut">
+                Đăng xuất
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Breadcrumb -->
+      <div class="mt-4 px-4">
+        <div v-if="route.href !== '/'" class="container mx-auto">
+          <div class="bg-red-600 h-8 flex items-center text-white gap-x-4">
+            <span @click="handleClick" class="cursor-pointer hover:underline-offset-1 hover:text-black" >
+              Trang chủ
+            </span>
+            <span>>></span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Main Content -->
+      <div class="container mx-auto mt-8">
+        <slot/>
+      </div>
+    </div>
+  </template>
+  
+<!-- <template>
+    <div class="h-screen relative">
+        <div id="navbar">
+            <div class="w-full h-[120px] flex flex-row justify-center items-center space-x-32">
+                <div class="flex justify-center text-xl font-bold relative bg-slate-700 ">
+                    <div >
+                        <img class="w-32 h-24" src="/Re_logo.jpg" alt="Logo Store">
+                    </div>
+                    <MenuItem v-for="(item, index) in menu"
+                            :key="index"
+                            :item="item"
+                            :class="item.isSubmenu ? 'menu-item-wrap' : ''"/>
+                    <div class="w-1/3 border-solid border-4">
+                        <el-input
+                            v-model="search"
+                            placeholder="Nhập từ khoá cần tìm"
+                            class="input-with-select"
+                            size="large"
+                            :suffix-icon="Search"
+                        >
+                        </el-input>
+                    </div>
+                    <el-badge :value="auth.$state.quantityInCart" class="cursor-pointer hover:text-blue-600 transition duration-200" @click="$router.push('/cart')">
                     <el-icon size="40"><ShoppingCart/></el-icon>
                 </el-badge>
-            </div>
-            <div class="flex justify-center text-xl font-bold relative bg-black">
-                <MenuItem v-for="(item, index) in menu"
-                          :key="index"
-                          :item="item"
-                          :class="item.isSubmenu ? 'menu-item-wrap' : ''"/>
+                <div class="h-[40px] flex items-center justify-end p-2 bg-black text-white">
+                    <div v-if="!auth.$state.accessToken || !auth.$state.refreshToken">
+                        <nuxt-link to="/login" class="cursor-pointer hover:underline hover:text-red-700">
+                            Đăng nhập
+                        </nuxt-link>
+                        <el-divider direction="vertical"/>
+                        <nuxt-link to="/register" class="cursor-pointer hover:underline hover:text-red-700">
+                            Đăng ký
+                        </nuxt-link>
+                    </div>
+                    <div v-else>
+                        <span>
+                            Xin chào, {{auth.$state.user.username}}
+                        </span>
+                        <el-divider direction="vertical"/>
+                        <nuxt-link to="/myorder">
+                        <span class="cursor-pointer hover:underline hover:text-red-700">
+                                Đơn hàng của tôi
+                        </span>
+                        </nuxt-link>
+                        <el-divider direction="vertical"/>
+                        <span class="cursor-pointer hover:underline hover:text-red-700" @click="logOut">
+                            Đăng xuất
+                        </span>
+                    </div>
+                </div>
+                </div>
+        
+            
             </div>
         </div>
 
@@ -171,8 +246,9 @@ watch(search, () => {
             </div>
             <slot/>
         </div>
-
-        <div class="w-full">
+    </div>
+</template> -->
+        <!-- <div class="w-full">
             <div class="w-full h-24 bg-yellow-300 mt-10 flex justify-center items-center justify-evenly">
                 <div class="p-6 border-solid border-black">
                     <p>
@@ -316,12 +392,14 @@ watch(search, () => {
                 </div>
 
             </div>
-        </div>
-    </div>
-</template>
+        </div> -->
+    <!-- </div>
+</template> -->
 
 <style lang="scss" >
 .el-message{
     z-index: 9999 !important;
 }
+
+
 </style>

@@ -1,9 +1,11 @@
-<!-- <script setup>
+<script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '~/stores/auth.js';
-import TableProduct from '~/components/manage/TableProduct.vue';
-import TableOrder from '~/components/manage/TableOrder.vue';
-import TableUser from '~/components/manage/TableUser.vue';
+import Thongke from '~/components/manage/Thongke.vue';
+import QuanlyProduct from '~/components/manage/QuanlyProduct.vue';
+import QuanlyOrder from '~/components/manage/QuanlyOrder.vue';
+import QuanlyAccount from '~/components/manage/QuanlyAccount.vue';
+
 
 definePageMeta({
   layout: 'admin',
@@ -18,6 +20,10 @@ const logOut = () => {
   window.location.reload();
 };
 
+const Home = () => {
+  window.location.href = "/";
+};
+
 const handleChange = (key) => {
   console.log(key);
   active.value = key;
@@ -27,49 +33,50 @@ const handleChange = (key) => {
 <template>
   <div class="container">
     <el-menu
-      active-text-color="#ffd04b"
+      active-text-color="#9A5C00"
       background-color="#E4E7E6"
-      default-active="1"
+      default-active=""
       text-color="#000"
       class="menu"
       @select="handleChange"
     >
-    <el-menu-item class="mb-16" index="0">
-                    <img class="h-32 mt-16 ml-12"
+    <el-menu-item class="mb-20" index="0">
+                    <img class="h-32 mt-20 ml-10"
                          src="https://i.pinimg.com/564x/3c/07/40/3c0740017fa1c2ca4b529179ef1ffb08.jpg"
                          alt="">
     </el-menu-item> 
 
-      <el-menu-item index="1">
+      <el-menu-item @click="Home">
         <i class="el-icon-s-home"></i>
-        <span>Chung</span>
+        <span>Home</span>
       </el-menu-item>
       <el-menu-item index="2">
         <i class="el-icon-goods"></i>
-        <span>Chưa thêm</span>
+        <span>Thống Kế</span>
       </el-menu-item>
       <el-menu-item index="3">
         <i class="el-icon-goods"></i>
-        <span>Quản lý sản phẩm</span>
+        <span>Quản lý Product</span>
       </el-menu-item>
       <el-menu-item index="4">
         <i class="el-icon-s-order"></i>
-        <span>Quản lý đơn hàng</span>
+        <span>Quản lý Order</span>
       </el-menu-item>
       <el-menu-item index="5">
         <i class="el-icon-user"></i>
-        <span>Quản lý tài khoản</span>
+        <span>Quản lý Account</span>
       </el-menu-item>
       <el-menu-item @click="logOut">
         <i class="el-icon-switch-button"></i>
-        <span>Đăng xuất</span>
+        <span>Log Out</span>
       </el-menu-item>
     </el-menu>
 
     <div class="content" >
-      <TableProduct v-if="active === '3'" class="content-section" />
-      <TableOrder v-if="active === '4'" class="content-section" />
-      <TableUser v-if="active === '5'" class="content-section" />
+      <Thongke v-if="active === '2'" class="content-section" />
+      <QuanlyProduct v-if="active === '3'" class="content-section" />
+      <QuanlyOrder v-if="active === '4'" class="content-section" />
+      <QuanlyAccount v-if="active === '5'" class="content-section" />
     </div>
   </div>
 </template>
@@ -93,6 +100,7 @@ const handleChange = (key) => {
 .content {
   padding: 100px;
   width: 100vh;
+  height: 100vh;
   display: flex;
   justify-items: center;
 }
@@ -107,7 +115,7 @@ const handleChange = (key) => {
   align-items: center;
 }
 </style>
- -->
+
 
 
 <!-- <script setup>

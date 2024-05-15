@@ -46,12 +46,12 @@ watch(search, () => {
         <div class="uppercase font-semibold text-2xl">
             Danh sách tài khoản
         </div>
-        <div class="w-full py-4 flex justify-between items-center">
+        <div class="search-container">
             <el-input
-                v-model="search"
-                placeholder="Nhập nội dung tìm kiếm"
-                :prefix-icon="Search"
-                style="width: 400px"
+            v-model="search"
+            placeholder="Tìm kiếm sản phẩm"
+            :prefix-icon="Search"
+            class="search-input custom-input"
             />
         </div>
         <el-table v-loading="loading" border :data="tableData"
@@ -81,5 +81,10 @@ watch(search, () => {
 </template>
 
 <style scoped>
-
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust the gap between the input and the button */
+  padding: 10px 0; /* Adjust the padding as needed */
+}
 </style>
